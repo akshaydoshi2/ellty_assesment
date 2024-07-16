@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import { data, ListTileProps } from "./utils/utils";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [selectedData, setSelectedData] = useState<string[]>([]);
@@ -20,7 +22,15 @@ function App() {
         ))}
       </div>
       <div className="divider"></div>
-      <button className="button" disabled={selectedData.length===0}>Done</button>
+      <button
+        className="button"
+        disabled={selectedData.length === 0}
+        onClick={() => {
+          toast.info(selectedData.join(", "));
+        }}
+      >
+        Done
+      </button>
     </div>
   );
 }
@@ -33,10 +43,12 @@ function ListTile({ text, selectedData, setSelectedData }: ListTileProps) {
         type="checkbox"
         checked={selectedData.includes(text)}
         onChange={(_e) => {
-          if(selectedData.includes(text)){
-            setSelectedData((l:string[]) => l.filter((item:string) => item !== text));
-          }else{
-            setSelectedData((prevData:string[]) => [...prevData, text]);
+          if (selectedData.includes(text)) {
+            setSelectedData((l: string[]) =>
+              l.filter((item: string) => item !== text)
+            );
+          } else {
+            setSelectedData((prevData: string[]) => [...prevData, text]);
           }
         }}
       />
